@@ -2,70 +2,131 @@ package me.naveenmk.tokenizer;
 
 import android.os.Bundle;
 import android.content.Context;
+
+import androidx.annotation.NonNull;
+
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.WritableArray;
 import me.naveenmk.tokenizer.NativeTokenizerSpec;
 import com.facebook.react.bridge.ReactApplicationContext;
+import javax.annotation.Nullable;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+
 import ai.djl.huggingface.tokenizers.Encoding;
 import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
-
 
 public class NativeTokenizerModule extends NativeTokenizerSpec {
 
     public static final String NAME = "NativeTokenizer";
+    private static final Logger log = LoggerFactory.getLogger(NativeTokenizerModule.class);
 
     public NativeTokenizerModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
+    // readableArray to long[]
+    private long[] toLongArray(ReadableArray array) {
+        List<Long> list = new ArrayList<>();
+        for (int i = 0; i < array.size(); i++) {
+            list.add(array.getLong(i));
+        }
+        return list.stream().mapToLong(l -> l).toArray();
+    }
+
+    // a function to get the tokenizer
+    private HuggingFaceTokenizer getTokenizer(String modelPath) {
+        try {
+            Path tokenizerModel = Paths.get(modelPath);
+            return HuggingFaceTokenizer.newInstance(tokenizerModel);
+        } catch (Exception e) {
+            log.error("Error getting tokenizer", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    // formats the tokenized output
+    private WritableMap formatOutput(Encoding e) {
+        Bundle bundle = new Bundle();
+
+        ArrayList<Long> ids = new ArrayList<Long>();
+        for (long id : e.getIds()) {
+            ids.add(id);
+        }
+
+        ArrayList<Long> attentionMask = new ArrayList<Long>();
+        for (long mask : e.getAttentionMask()) {
+            attentionMask.add(mask);
+        }
+
+        ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(e.getTokens()));
+
+        bundle.putSerializable("ids", ids);
+        bundle.putSerializable("attentionMask", attentionMask);
+        bundle.putSerializable("tokens", tokens);
+        return Arguments.fromBundle(bundle);
+    }
+
+    @NonNull
     @Override
     public String getName() {
         return NAME;
     }
 
     @Override
-    public WritableMap encode(String text) {
-
-        // init tokenizer
-        HuggingFaceTokenizer tokenizer = HuggingFaceTokenizer.newInstance("sentence-transformers/msmarco-distilbert-dot-v5");
-
-        // encode text
-        Encoding e = tokenizer.encode(text);
-
-        Bundle bundle = new Bundle();
-
-        // create an array of longs for ids
-        ArrayList<Long> ids = new ArrayList<Long>();
-        for (long id : e.getIds()) {
-            ids.add(id);
+    public WritableMap encode(String modelPath, String text, @Nullable Boolean addSpecialTokens,
+            @Nullable Boolean withOverflowingTokens) {
+        try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
+            return formatOutput(tokenizer.encode(text, addSpecialTokens, withOverflowingTokens));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+    }
 
-        // create an array of longs for attentionMask
-        ArrayList<Long> attentionMask = new ArrayList<Long>();
-        for (long mask : e.getAttentionMask()) {
-            attentionMask.add(mask);
+    @Override
+    public WritableArray batchEncode(String modelPath, ReadableArray texts, @Nullable Boolean addSpecialTokens,
+            @Nullable Boolean withOverflowingTokens) {
+        try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
+            WritableArray output = Arguments.createArray();
+            for (int i = 0; i < texts.size(); i++) {
+                output.pushMap(
+                        formatOutput(tokenizer.encode(texts.getString(i), addSpecialTokens, withOverflowingTokens)));
+            }
+            return output;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+    }
 
-        // create an array of strings
-        ArrayList<String> tokens = new ArrayList<String>(Arrays.asList(e.getTokens()));
+    @Override
+    public String decode(String modelPath, ReadableArray ids, @Nullable Boolean skipSpecialTokens) {
+        try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
+            return tokenizer.decode(toLongArray(ids), skipSpecialTokens);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        bundle.putSerializable("ids", ids);
-        bundle.putSerializable("attentionMask", attentionMask);
-        bundle.putSerializable("tokens", tokens);
-
-
-        // put array of integers
-//        map.putArray("ids", arr);
-//        map.putArray("attentionMask", arr);
-
-        // put array of strings
-//        map.putArray("tokens", arr2);
-
-        return Arguments.fromBundle(bundle);
+    @Override
+    public WritableArray batchDecode(String modelPath, ReadableArray ids, @Nullable Boolean skipSpecialTokens) {
+        try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
+            WritableArray output = Arguments.createArray();
+            for (int i = 0; i < ids.size(); i++) {
+                output.pushString(tokenizer.decode(toLongArray(ids.getArray(i)), skipSpecialTokens));
+            }
+            return output;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
