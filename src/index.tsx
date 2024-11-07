@@ -1,5 +1,3 @@
-const ReactNativeTokenizer = require('./NativeReactNativeTokenizer').default;
+import NativeTokenizer from "./NativeTokenizer";
 
-export function multiply(a: number, b: number): number {
-  return ReactNativeTokenizer.multiply(a, b);
-}
+export default NativeTokenizer;

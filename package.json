@@ -182,15 +182,14 @@
     ]
   },
   "codegenConfig": {
-    "name": "RNReactNativeTokenizerSpec",
+    "name": "NativeTokenizerSpec",
     "type": "all",
     "jsSrcsDir": "src",
     "outputDir": {
-      "ios": "ios/generated",
       "android": "android/generated"
     },
     "android": {
-      "javaPackageName": "com.naveen521kk.reactnativetokenizer"
+      "javaPackageName": "me.naveenmk.tokenizer"
     }
   },
   "create-react-native-library": {
