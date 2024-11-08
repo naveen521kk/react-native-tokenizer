@@ -1,6 +1,6 @@
 # @naveen521kk/react-native-tokenizer
 
-Port of Huggingface's Tokenizer written in Rust for React Native
+Port of Huggingface's Tokenizer written in Rust for React Native. Only supports Android for now.
 
 ## Installation
 
@@ -10,13 +10,14 @@ npm install @naveen521kk/react-native-tokenizer
 
 ## Usage
 
+See [example](https://github.com/naveen521kk/react-native-tokenizer/tree/main/example) for a full example.
 
 ```js
-import { multiply } from '@naveen521kk/react-native-tokenizer';
+import { encode } from '@naveen521kk/react-native-tokenizer';
 
 // ...
-
-const result = multiply(3, 7);
+// modelPath is the path to the model directory
+const result = encode(modelPath, "Hello World!");
 ```
 
 
