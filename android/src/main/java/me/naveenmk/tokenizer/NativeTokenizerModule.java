@@ -5,6 +5,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableArray;
 import me.naveenmk.tokenizer.NativeTokenizerSpec;
@@ -27,7 +28,6 @@ import ai.djl.huggingface.tokenizers.Encoding;
 import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
 
 public class NativeTokenizerModule extends NativeTokenizerSpec {
-
     public static final String NAME = "NativeTokenizer";
     private static final Logger log = LoggerFactory.getLogger(NativeTokenizerModule.class);
 
@@ -84,49 +84,94 @@ public class NativeTokenizerModule extends NativeTokenizerSpec {
     }
 
     @Override
-    public WritableMap encode(String modelPath, String text, @Nullable Boolean addSpecialTokens,
-            @Nullable Boolean withOverflowingTokens) {
+    public void encode(String modelPath, String text, Promise promise) {
         try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
-            return formatOutput(tokenizer.encode(text, addSpecialTokens, withOverflowingTokens));
+            promise.resolve(formatOutput(tokenizer.encode(text)));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            promise.reject("ERROR_CODE", "An error occurred", e);
         }
     }
 
     @Override
-    public WritableArray batchEncode(String modelPath, ReadableArray texts, @Nullable Boolean addSpecialTokens,
-            @Nullable Boolean withOverflowingTokens) {
+    public void encodeWithExtra(String modelPath, String text, boolean addSpecialTokens, boolean withOverflowingTokens,
+            Promise promise) {
+        try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
+            promise.resolve(formatOutput(tokenizer.encode(text, addSpecialTokens, withOverflowingTokens)));
+        } catch (Exception e) {
+            promise.reject("ERROR_CODE", "An error occurred", e);
+        }
+    }
+
+    @Override
+    public void batchEncode(String modelPath, ReadableArray texts, Promise promise) {
+        try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
+            WritableArray output = Arguments.createArray();
+            for (int i = 0; i < texts.size(); i++) {
+                output.pushMap(formatOutput(tokenizer.encode(texts.getString(i))));
+            }
+            promise.resolve(output);
+        } catch (Exception e) {
+            promise.reject("ERROR_CODE", "An error occurred", e);
+        }
+    }
+
+    @Override
+    public void batchEncodeWithExtra(String modelPath, ReadableArray texts, boolean addSpecialTokens,
+            boolean withOverflowingTokens, Promise promise) {
         try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
             WritableArray output = Arguments.createArray();
             for (int i = 0; i < texts.size(); i++) {
                 output.pushMap(
                         formatOutput(tokenizer.encode(texts.getString(i), addSpecialTokens, withOverflowingTokens)));
             }
-            return output;
+            promise.resolve(output);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            promise.reject("ERROR_CODE", "An error occurred", e);
         }
     }
 
     @Override
-    public String decode(String modelPath, ReadableArray ids, @Nullable Boolean skipSpecialTokens) {
+    public void decode(String modelPath, ReadableArray ids, Promise promise) {
         try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
-            return tokenizer.decode(toLongArray(ids), skipSpecialTokens);
+            promise.resolve(tokenizer.decode(toLongArray(ids)));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            promise.reject("ERROR_CODE", "An error occurred", e);
         }
     }
 
     @Override
-    public WritableArray batchDecode(String modelPath, ReadableArray ids, @Nullable Boolean skipSpecialTokens) {
+    public void decodeWithExtra(String modelPath, ReadableArray ids, boolean skipSpecialTokens, Promise promise) {
+        try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
+            promise.resolve(tokenizer.decode(toLongArray(ids), skipSpecialTokens));
+        } catch (Exception e) {
+            promise.reject("ERROR_CODE", "An error occurred", e);
+        }
+    }
+
+    @Override
+    public void batchDecode(String modelPath, ReadableArray ids, Promise promise) {
+        try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
+            WritableArray output = Arguments.createArray();
+            for (int i = 0; i < ids.size(); i++) {
+                output.pushString(tokenizer.decode(toLongArray(ids.getArray(i))));
+            }
+            promise.resolve(output);
+        } catch (Exception e) {
+            promise.reject("ERROR_CODE", "An error occurred", e);
+        }
+    }
+
+    @Override
+    public void batchDecodeWithExtra(String modelPath, ReadableArray ids, boolean skipSpecialTokens, Promise promise) {
         try (HuggingFaceTokenizer tokenizer = getTokenizer(modelPath)) {
             WritableArray output = Arguments.createArray();
             for (int i = 0; i < ids.size(); i++) {
                 output.pushString(tokenizer.decode(toLongArray(ids.getArray(i)), skipSpecialTokens));
             }
-            return output;
+            promise.resolve(output);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            promise.reject("ERROR_CODE", "An error occurred", e);
         }
     }
 }
+    
