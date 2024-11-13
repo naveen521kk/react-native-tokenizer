@@ -4534,9 +4534,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001669":
-  version: 1.0.30001678
-  resolution: "caniuse-lite@npm:1.0.30001678"
-  checksum: b1690df8b306b99a1ec84dc29cbdc893b569fcdc232324a9d3ebd67ce184a353ffdea93270bb6c20e3372bec8b5f6922c04a464fbd1cdeff662d459639f22a53
+  version: 1.0.30001679
+  resolution: "caniuse-lite@npm:1.0.30001679"
+  checksum: 6fca375c6c3a749aaf1246f28c9b182f94b2aa0fb30a98d4c5a3df1a22054fba852df625be50b5ffa1c772a0c53f1aea14dead920d6c5d54030dd4dede0dba98
   languageName: node
   linkType: hard
 
@@ -5695,9 +5695,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.41":
-  version: 1.5.52
-  resolution: "electron-to-chromium@npm:1.5.52"
-  checksum: fd89ec7587726d99d138d0bbe0e26e490284766b2bce29da21298b80b6ecd16db69c6b1a602d33b37129b9e07c8beaef4c9490681ca1a29a4fcd38ecabc327b8
+  version: 1.5.55
+  resolution: "electron-to-chromium@npm:1.5.55"
+  checksum: 7c797418ef30b0021b586d023eec1e87400632add6f37285e993716292f2f3451a36d6266c8502df34c776000bca01ad8e17b736b1f7b3de022a82a45d0dc06f
   languageName: node
   linkType: hard
 
@@ -10394,9 +10394,9 @@ __metadata:
   linkType: hard
 
 "object-inspect@npm:^1.13.1":
-  version: 1.13.2
-  resolution: "object-inspect@npm:1.13.2"
-  checksum: 9f850b3c045db60e0e97746e809ee4090d6ce62195af17dd1e9438ac761394a7d8ec4f7906559aea5424eaf61e35d3e53feded2ccd5f62fcc7d9670d3c8eb353
+  version: 1.13.3
+  resolution: "object-inspect@npm:1.13.3"
+  checksum: 8c962102117241e18ea403b84d2521f78291b774b03a29ee80a9863621d88265ffd11d0d7e435c4c2cea0dc2a2fbf8bbc92255737a05536590f2df2e8756f297
   languageName: node
   linkType: hard
 
@@ -11293,8 +11293,8 @@ __metadata:
   linkType: hard
 
 "react-native-test-app@npm:^3.10.21":
-  version: 3.10.21
-  resolution: "react-native-test-app@npm:3.10.21"
+  version: 3.10.22
+  resolution: "react-native-test-app@npm:3.10.22"
   dependencies:
     "@rnx-kit/react-native-host": ^0.5.0
     ajv: ^8.0.0
@@ -11324,7 +11324,7 @@ __metadata:
     init: scripts/init.mjs
     init-test-app: scripts/init.mjs
     install-windows-test-app: windows/test-app.mjs
-  checksum: ce86f478ddc6f1f150b7790166a4743c812f248405dbe957adcf969889176da6e33010e45213d2833a36d78623330eab83cebd7e56a7a79afb9f537d780341db
+  checksum: 138985b4aa0bac75d4d7de0b94cfacd26119be7dbbf12fa747e9723a7d31214fbb88817bf4167bda3a96732157ec093a44a4982518988a434fc71b6fdf8c0391
   languageName: node
   linkType: hard
 
