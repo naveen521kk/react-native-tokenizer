@@ -16,7 +16,8 @@
         "types": "./lib/typescript/commonjs/src/index.d.ts",
         "default": "./lib/commonjs/index.js"
       }
-    }
+    },
+    "./app.plugin.js": "./app.plugin.js"
   },
   "files": [
     "src",
@@ -203,3 +204,4 @@
     "version": "0.42.2"
   }
 }
+
