@@ -10,10 +10,6 @@ buildscript {
         throw new GradleException("Could not find `react-native-test-app`");
     }())
 
-    ext {
-        minSdkVersion = 21
-    }
-
     repositories {
         mavenCentral()
         google()

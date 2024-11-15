@@ -41,7 +41,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "example": "yarn workspace @naveen521kk/react-native-tokenizer-example",
+    "example": "yarn workspace react-native-tokenizer-example",
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",

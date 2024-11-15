@@ -1,10 +1,10 @@
 {
-  "name": "ReactNativeTokenizerExample",
-  "displayName": "ReactNativeTokenizerExample",
+  "name": "TokenizerExample",
+  "displayName": "TokenizerExample",
   "components": [
     {
-      "appKey": "ReactNativeTokenizerExample",
-      "displayName": "ReactNativeTokenizerExample"
+      "appKey": "TokenizerExample",
+      "displayName": "TokenizerExample"
     }
   ],
   "resources": {
@@ -30,9 +30,9 @@
     ]
   },
   "android": {
-    "package": "naveen521kk.reactnativetokenizer.example"
+    "package": "tokenizer.example"
   },
   "ios": {
-    "bundleIdentifier": "naveen521kk.reactnativetokenizer.example"
+    "bundleIdentifier": "tokenizer.example"
   }
 }

@@ -6,7 +6,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "ReactNativeTokenizerExample"
+rootProject.name = "TokenizerExample"
 
 apply(from: {
     def searchDir = rootDir.toPath()
