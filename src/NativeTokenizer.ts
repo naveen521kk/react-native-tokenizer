@@ -36,4 +36,4 @@ export interface Spec extends TurboModule {
   ): Promise<string[]>;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('NativeTokenizer');
+export default TurboModuleRegistry.getEnforcing<Spec>('Tokenizer');

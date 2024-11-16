@@ -23,13 +23,11 @@
     "src",
     "lib",
     "android",
-    "ios",
     "cpp",
     "*.podspec",
     "react-native.config.json",
     "app.plugin.js",
     "expo-module.config.json",
-    "!ios/build",
     "!android/build",
     "!android/gradle",
     "!android/gradlew",
@@ -45,13 +43,12 @@
     "test": "jest",
     "typecheck": "tsc",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build lib",
+    "clean": "del-cli android/build example/android/build example/android/app/build lib",
     "prepare": "bob build",
     "release": "release-it"
   },
   "keywords": [
     "react-native",
-    "ios",
     "android"
   ],
   "repository": {
@@ -188,12 +185,14 @@
     ]
   },
   "codegenConfig": {
-    "name": "NativeTokenizerSpec",
+    "name": "RNNativeTokenizerSpec",
     "type": "all",
     "jsSrcsDir": "src",
     "outputDir": {
-      "android": "android/generated"
+      "android": "android/generated",
+      "ios": "ios/generated"
     },
+    "includesGeneratedCode": true,
     "android": {
       "javaPackageName": "me.naveenmk.tokenizer"
     }
@@ -201,6 +200,6 @@
   "create-react-native-library": {
     "type": "module-new",
     "languages": "kotlin-objc",
-    "version": "0.42.2"
+    "version": "0.43.0"
   }
 }

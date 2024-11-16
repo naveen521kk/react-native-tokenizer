@@ -83,3 +83,6 @@ android/generated
 
 # npm pack
 *.tgz
+
+# ignore ios folder
+ios/

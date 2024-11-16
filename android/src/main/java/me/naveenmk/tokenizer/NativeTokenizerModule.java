@@ -28,7 +28,7 @@ import ai.djl.huggingface.tokenizers.Encoding;
 import ai.djl.huggingface.tokenizers.HuggingFaceTokenizer;
 
 public class NativeTokenizerModule extends NativeTokenizerSpec {
-    public static final String NAME = "NativeTokenizer";
+    public static final String NAME = "Tokenizer";
     private static final Logger log = LoggerFactory.getLogger(NativeTokenizerModule.class);
 
     public NativeTokenizerModule(ReactApplicationContext reactContext) {
