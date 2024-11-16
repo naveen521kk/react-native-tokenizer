@@ -104,4 +104,5 @@ jobs:
         env:
           JAVA_OPTS: "-XX:MaxHeapSize=6g"
         run: |
+          npx bob build --target codegen
           yarn turbo run build:android --cache-dir="${{ env.TURBO_CACHE_DIR }}"
