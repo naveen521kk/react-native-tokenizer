@@ -25,7 +25,7 @@
     "android",
     "cpp",
     "*.podspec",
-    "react-native.config.json",
+    "react-native.config.js",
     "app.plugin.js",
     "expo-module.config.json",
     "!android/build",
