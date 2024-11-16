@@ -1,6 +1,6 @@
 {
   "name": "@naveen521kk/react-native-tokenizer",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Port of Huggingface's Tokenizer written in Rust for React Native",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
