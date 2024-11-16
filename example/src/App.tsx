@@ -51,10 +51,12 @@ export default function App() {
       // Load tokenizer
       console.log('Loading tokenizer');
       try {
+        let start = performance.now();
         const encoded = await Tokenizer.encode({
           modelPath: tokenizerFilePath,
-          text: 'Hello World',
+          text: 'Hello World, my name is Naveen M K.',
         });
+        console.log('Time taken', performance.now() - start);
 
         console.log('result', encoded);
         setResult(JSON.stringify(encoded));
